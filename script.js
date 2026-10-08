@@ -1851,7 +1851,7 @@ const flashcardData = [
     // === B2 HIGH-IMPACT COLLOCATIONS ===
     { tag: "GIFT", en: "express care without putting pressure on budget", vi: "bày tỏ sự quan tâm mà không áp lực tài chính", hint: "B2 Gift - Financial reason" },
     { tag: "GIFT", en: "used on a regular basis instead of decoration", vi: "sử dụng thường xuyên thay vì để trang trí", hint: "B2 Gift - Utility reason" },
-    { tag: "GIFT", en: "reflect care and appreciation for shared memories", vi: "thể hiện sự trân trọng những kỷ niệm chung", hint: "B2 Gift - Emotional reason" },
+    { tag: "GIFT", en: "serve as a great reminder of this special occasion", vi: "kỷ vật tuyệt vời gợi nhớ về dịp đặc biệt này", hint: "B2 Gift - Emotional reason" },
     { tag: "GIFT", en: "leave a stronger impression due to uniqueness", vi: "để lại ấn tượng sâu sắc nhờ tính độc đáo", hint: "B2 Gift - Unique reason" },
 
     { tag: "ACTIVITY", en: "escape from daily pressure and unwind", vi: "thoát khỏi áp lực thường nhật và thư giãn", hint: "B2 Activity - Entertainment" },
