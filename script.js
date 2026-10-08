@@ -414,9 +414,6 @@ function initAuth() {
             normName === 'nguyet' ||
             normName.includes('giao vien');
 
-        let finalName = '';
-        let finalClass = '';
-
         let finalName = nameVal;
         let finalClass = formattedClass;
 
