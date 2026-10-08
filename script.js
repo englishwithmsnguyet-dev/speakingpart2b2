@@ -250,8 +250,86 @@ function initApp() {
 }
 
 /* ==========================================================================
-   1. AUTH & WELCOME MODAL & GOOGLE FORMS ATTENDANCE TRACKING
+   1. ACCESS CONTROL, AUTH & ATTENDANCE TRACKING (B212)
    ========================================================================== */
+const UNLOCKED_TABS_B212 = ['overview', 'group-gift'];
+
+const validStudentsB212 = [
+    "Nguyễn Duy Hồng Anh",
+    "Nguyễn Ngọc Minh Anh",
+    "Nguyễn Lê Mỹ Hân",
+    "Nguyễn Hồng Minh Huy",
+    "Nguyễn Quốc Khải",
+    "Đoàn Nguyễn Đình Khang",
+    "Lê Nguyễn Gia Khánh",
+    "Nguyễn Hữu Khánh",
+    "Hồ Thị Ngọc Lan",
+    "Trần Thị Hồng Lỉnh",
+    "Võ Thị Triệu Minh",
+    "Hứa Đình Nghi",
+    "Võ Thị Bảo Ngọc",
+    "Lê Tiến Phát",
+    "Nguyễn Hoàng Thông",
+    "Nguyễn Kim Tiền",
+    "Lê Thị Bảo Trân",
+    "Võ Thị Diễm Trinh",
+    "Nguyễn Tiến Trung",
+    "Trần Thị Ánh Tuyết",
+    "Đặng Nguyễn Khánh Uyên",
+    "Nguyễn Thị Chúc Yến"
+];
+
+function normalizeStr(str) {
+    return (str || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[đĐ]/g, 'd')
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function checkIfTeacher(name, classCode) {
+    const formattedClass = (classCode || '').toUpperCase().replace(/\s+/g, '');
+    const normName = normalizeStr(name || '');
+    return formattedClass === 'GV' || 
+           formattedClass === 'GV2026' || 
+           formattedClass === '2026' || 
+           formattedClass === 'ADMIN' ||
+           formattedClass === 'TEACHER' ||
+           normName.includes('ptmn') || 
+           normName.includes('co nguyet') || 
+           normName.includes('minh nguyet') || 
+           normName.includes('ms nguyet') || 
+           normName.includes('pham thi minh nguyet') ||
+           normName === 'nguyet' ||
+           normName.includes('giao vien');
+}
+
+function applyAccessControl(isTeacher) {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        const target = item.dataset.target;
+        const existingPill = item.querySelector('.lock-pill');
+        if (existingPill) existingPill.remove();
+
+        if (isTeacher || UNLOCKED_TABS_B212.includes(target)) {
+            item.classList.remove('locked');
+            item.removeAttribute('title');
+        } else {
+            item.classList.add('locked');
+            item.setAttribute('title', 'Tạm khóa cho lớp B212');
+            const link = item.querySelector('a');
+            if (link) {
+                const pill = document.createElement('span');
+                pill.className = 'lock-pill';
+                pill.innerHTML = '<i class="fa-solid fa-lock"></i> Khóa';
+                link.appendChild(pill);
+            }
+        }
+    });
+}
+
 function initAuth() {
     const welcomeModal = document.getElementById('welcome-modal');
     const startBtn = document.getElementById('start-btn');
@@ -266,82 +344,27 @@ function initAuth() {
     const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc1mIvmT7FQBOL415zz3Hm4iQBHJZqziNla9Z70Ozm4ihIqwA/formResponse";
     const ENTRY_FIELD = "entry.388968236";
 
-    const validStudentsCB206 = [
-        "Nguyễn Thị Vân Anh",
-        "Nguyễn Thị Hồng Duyên",
-        "Nguyễn Thị Thúy Hồng",
-        "Trương Ngọc Nhi",
-        "Nguyễn Phạm Như Quỳnh",
-        "Trần Lê Quỳnh",
-        "Ông Lê Thành",
-        "Trần Nguyễn Thanh Thảo",
-        "Phan Nhật Thiện",
-        "Trần Thị Cẩm Tiên",
-        "Võ Trần Bảo Tính",
-        "Trương Thanh Toàn",
-        "Phạm Ngọc Trâm",
-        "Nguyễn Võ Bảo Trân"
-    ];
-
-    const validStudentsB212 = [
-        "Nguyễn Duy Hồng Anh",
-        "Nguyễn Ngọc Minh Anh",
-        "Nguyễn Lê Mỹ Hân",
-        "Nguyễn Hồng Minh Huy",
-        "Nguyễn Quốc Khải",
-        "Đoàn Nguyễn Đình Khang",
-        "Lê Nguyễn Gia Khánh",
-        "Nguyễn Hữu Khánh",
-        "Hồ Thị Ngọc Lan",
-        "Trần Thị Hồng Lỉnh",
-        "Võ Thị Triệu Minh",
-        "Hứa Đình Nghi",
-        "Võ Thị Bảo Ngọc",
-        "Lê Tiến Phát",
-        "Nguyễn Hoàng Thông",
-        "Nguyễn Kim Tiền",
-        "Lê Thị Bảo Trân",
-        "Võ Thị Diễm Trinh",
-        "Nguyễn Tiến Trung",
-        "Trần Thị Ánh Tuyết",
-        "Đặng Nguyễn Khánh Uyên",
-        "Nguyễn Thị Chúc Yến"
-    ];
-    const validStudentsCB219 = [
-        "Lưu Thị Vân Anh",
-        "Nguyễn Tuấn Anh",
-        "Trần Thị Huỳnh Duy",
-        "Duy Thị Huỳnh Hân",
-        "Trần Thị Xuân Hoa",
-        "Nguyễn Phạm Khang",
-        "Đặng Văn Khánh",
-        "Chim Nhật Luân",
-        "Lư Vĩnh Phúc",
-        "Nguyễn Chí Thiện",
-        "Trần Thị Ngọc Thơ",
-        "Huỳnh Yến Trang",
-        "Thị Thu Trinh",
-        "Nguyễn Thị Mỹ Xuyên",
-        "Nguyễn Như Ý"
-    ];
-
-    const normalizeStr = (str) => {
-        return (str || '')
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/[đĐ]/g, 'd')
-            .toLowerCase()
-            .replace(/\s+/g, ' ')
-            .trim();
-    };
-
-    // Pre-fill previously saved name and class for student convenience
+    // Clean up previously saved credentials if not teacher and not B212
     const savedName = localStorage.getItem('vstep_sp2_b2_name') || '';
     const savedClass = localStorage.getItem('vstep_sp2_b2_class') || '';
-    if (nameInput && savedName) nameInput.value = savedName;
-    if (classInput && savedClass) classInput.value = savedClass;
+    const isTeacherSaved = checkIfTeacher(savedName, savedClass);
+    
+    if (savedClass && !isTeacherSaved && savedClass.toUpperCase().replace(/\s+/g, '') !== 'B212') {
+        localStorage.removeItem('vstep_sp2_b2_name');
+        localStorage.removeItem('vstep_sp2_b2_class');
+        state.student.name = '';
+        state.student.classCode = '';
+    } else if (savedClass) {
+        state.student.name = savedName;
+        state.student.classCode = savedClass;
+        if (displayName) displayName.textContent = `${savedName} (${savedClass})`;
+        if (userProfile) userProfile.classList.remove('hidden');
+    }
 
-    // Show modal on startup to track attendance
+    if (nameInput && state.student.name) nameInput.value = state.student.name;
+    if (classInput && state.student.classCode) classInput.value = state.student.classCode;
+
+    // Show modal on startup to verify student / teacher
     if (welcomeModal) {
         welcomeModal.classList.remove('hidden');
         welcomeModal.style.display = 'flex';
@@ -352,12 +375,21 @@ function initAuth() {
 
     window.finishLogin = (finalName, finalClass) => {
         finalName = finalName || state.student.name || 'Học viên';
-        finalClass = finalClass || state.student.classCode || 'CB206';
+        finalClass = finalClass || state.student.classCode || 'B212';
 
         state.student.name = finalName;
         state.student.classCode = finalClass;
         localStorage.setItem('vstep_sp2_b2_name', finalName);
         localStorage.setItem('vstep_sp2_b2_class', finalClass);
+
+        const isTeacher = checkIfTeacher(finalName, finalClass);
+        applyAccessControl(isTeacher);
+
+        if (!isTeacher && !UNLOCKED_TABS_B212.includes(state.activeTab)) {
+            if (typeof window.switchTab === 'function') {
+                window.switchTab('group-gift');
+            }
+        }
 
         if (displayName) displayName.textContent = `${finalName} (${finalClass})`;
         if (userProfile) userProfile.classList.remove('hidden');
@@ -398,21 +430,7 @@ function initAuth() {
 
         const formattedClass = classVal.toUpperCase().replace(/\s+/g, '');
         const normName = normalizeStr(nameVal);
-
-        // 1. Kiểm tra tài khoản Giáo viên (Cô Nguyệt / PTMN / GV)
-        const isTeacher = 
-            formattedClass === 'GV' || 
-            formattedClass === 'GV2026' || 
-            formattedClass === '2026' || 
-            formattedClass === 'ADMIN' ||
-            formattedClass === 'TEACHER' ||
-            normName.includes('ptmn') || 
-            normName.includes('co nguyet') || 
-            normName.includes('minh nguyet') || 
-            normName.includes('ms nguyet') || 
-            normName.includes('pham thi minh nguyet') ||
-            normName === 'nguyet' ||
-            normName.includes('giao vien');
+        const isTeacher = checkIfTeacher(nameVal, formattedClass);
 
         let finalName = nameVal;
         let finalClass = formattedClass;
@@ -421,16 +439,28 @@ function initAuth() {
             finalName = nameVal || 'Cô Nguyệt (PTMN)';
             finalClass = formattedClass || 'GV';
         } else {
-            // Chấp nhận các lớp B212, CB219, CB206 hoặc bất kỳ lớp/học viên nào
-            if (typeof validStudentsB212 !== 'undefined' && formattedClass === 'B212') {
-                const matchedStudent = validStudentsB212.find(s => normalizeStr(s) === normName);
-                if (matchedStudent) finalName = matchedStudent;
-            } else if (typeof validStudentsCB219 !== 'undefined' && formattedClass === 'CB219') {
-                const matchedStudent = validStudentsCB219.find(s => normalizeStr(s) === normName);
-                if (matchedStudent) finalName = matchedStudent;
-            } else if (typeof validStudentsCB206 !== 'undefined' && formattedClass === 'CB206') {
-                const matchedStudent = validStudentsCB206.find(s => normalizeStr(s) === normName);
-                if (matchedStudent) finalName = matchedStudent;
+            // Strict check: Chỉ nhận lớp B212
+            if (formattedClass !== 'B212') {
+                if (errorMsg) {
+                    errorMsg.textContent = 'Mã lớp không hợp lệ! Trang web hiện tại dành riêng cho lớp B212.';
+                    errorMsg.style.display = 'block';
+                }
+                if (classInput) classInput.focus();
+                return;
+            }
+
+            // Kiểm tra danh sách học viên lớp B212
+            const matchedStudent = validStudentsB212.find(s => normalizeStr(s) === normName);
+            if (matchedStudent) {
+                finalName = matchedStudent;
+                finalClass = 'B212';
+            } else {
+                if (errorMsg) {
+                    errorMsg.textContent = 'Họ tên không có trong danh sách lớp B212. Vui lòng kiểm tra lại họ tên có dấu!';
+                    errorMsg.style.display = 'block';
+                }
+                if (nameInput) nameInput.focus();
+                return;
             }
         }
 
@@ -470,12 +500,12 @@ function initAuth() {
             console.warn('Fetch init warn:', e);
         }
 
-        // Fallback timeout sau 1s
+        // Fallback timeout sau 800ms
         setTimeout(() => {
             if (welcomeModal && (!welcomeModal.classList.contains('hidden') || welcomeModal.style.display !== 'none')) {
                 window.finishLogin(finalName, finalClass);
             }
-        }, 1000);
+        }, 800);
     }
 
     if (startBtn) {
@@ -517,7 +547,7 @@ function initAuth() {
 }
 
 /* ==========================================================================
-   2. THEME & NAVIGATION
+   2. THEME & NAVIGATION (LOCKING LOGIC)
    ========================================================================== */
 function initTheme() {
     const themeToggle = document.getElementById('theme-toggle');
@@ -550,7 +580,15 @@ function initNavigation() {
         if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
     }
 
-    function switchTab(targetId) {
+    window.switchTab = function(targetId) {
+        const isTeacher = checkIfTeacher(state.student.name, state.student.classCode);
+        if (!isTeacher && !UNLOCKED_TABS_B212.includes(targetId)) {
+            showToast('🔒 Nội dung này đang tạm khóa cho lớp B212 và sẽ được mở trong các buổi học tiếp theo!');
+            targetId = 'group-gift';
+        }
+
+        state.activeTab = targetId;
+
         navItems.forEach(item => {
             if (item.dataset.target === targetId) {
                 item.classList.add('active');
@@ -569,7 +607,8 @@ function initNavigation() {
 
         const activeNavItem = document.querySelector(`.nav-item[data-target="${targetId}"]`);
         if (activeNavItem) {
-            topTitle.textContent = activeNavItem.querySelector('span').textContent.replace('📖 ', '').toUpperCase();
+            const rawTitle = activeNavItem.querySelector('span') ? activeNavItem.querySelector('span').textContent : '';
+            topTitle.textContent = rawTitle.replace('📖 ', '').replace('Khóa', '').trim().toUpperCase();
         }
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -577,16 +616,22 @@ function initNavigation() {
         if (window.innerWidth <= 768) {
             closeSidebar();
         }
-    }
+    };
 
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
             const target = item.dataset.target;
-            if (target) {
-                switchTab(target);
-                history.pushState(null, null, `#${target}`);
+            if (!target) return;
+
+            const isTeacher = checkIfTeacher(state.student.name, state.student.classCode);
+            if (!isTeacher && !UNLOCKED_TABS_B212.includes(target)) {
+                showToast('🔒 Nội dung này đang tạm khóa cho lớp B212 và sẽ được mở trong các buổi học tiếp theo!');
+                return;
             }
+
+            window.switchTab(target);
+            history.pushState(null, null, `#${target}`);
         });
     });
 
@@ -614,10 +659,20 @@ function initNavigation() {
         }
     });
 
+    // Apply access control & initial tab display
+    const isTeacher = checkIfTeacher(state.student.name, state.student.classCode);
+    applyAccessControl(isTeacher);
+
     // Hash check on load
     const currentHash = window.location.hash.replace('#', '');
     if (currentHash && document.getElementById(currentHash)) {
-        switchTab(currentHash);
+        if (!isTeacher && !UNLOCKED_TABS_B212.includes(currentHash)) {
+            window.switchTab('group-gift');
+        } else {
+            window.switchTab(currentHash);
+        }
+    } else {
+        window.switchTab('overview');
     }
 }
 
