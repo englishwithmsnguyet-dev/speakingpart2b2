@@ -19,7 +19,28 @@
 <body>
 <!-- Modal Đăng Nhập / Chào Mừng -->
 <div class="modal-overlay" id="welcome-modal">
-<div class="login-card-vibrant">VSTEP SPEAKING PART 02 - B2 LEVEL</div>
+<div class="login-card-vibrant">
+<div style="font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 0.25rem;">Welcome to Miss Nguyet's Class!</div>
+<div style="font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.35rem; letter-spacing: 0.5px;">VSTEP SPEAKING PART 02 - B2 LEVEL</div>
+<h2 style="font-size: 1.45rem; font-weight: 700; margin-bottom: 1.75rem;">NHẬP THÔNG TIN<br/>ĐỂ BẮT ĐẦU HỌC 🚀</h2>
+<div class="input-group-vibrant">
+<label for="student-name">Họ và tên học viên:</label>
+<input autocomplete="off" id="student-name" placeholder="Nhập họ và tên..." type="text"/>
+</div>
+<div class="input-group-vibrant">
+<label for="student-class">Mã lớp học:</label>
+<input autocomplete="off" id="student-class" placeholder="Nhập mã lớp (VD: B212, B2, CB219, GV)..." type="text"/>
+</div>
+<p id="login-error" style="color: var(--danger); font-size: 0.92rem; margin-top: -0.4rem; margin-bottom: 1.1rem; display: none; font-weight: 600;">Vui lòng nhập đầy đủ Họ tên và Lớp!</p>
+<button class="btn-login-vibrant" id="start-btn">
+                BẮT ĐẦU HỌC NGAY
+            </button>
+<!-- Hidden Form & Iframe for Google Forms Attendance Tracking -->
+<iframe id="hidden_iframe" name="hidden_iframe" onload="if(window.submitted) { if(window.finishLogin) window.finishLogin(); }" style="display:none;"></iframe>
+<form action="https://docs.google.com/forms/d/e/1FAIpQLSc1mIvmT7FQBOL415zz3Hm4iQBHJZqziNla9Z70Ozm4ihIqwA/formResponse" id="tracking-form" method="post" style="display:none;" target="hidden_iframe">
+<input id="entry_388968236" name="entry.388968236" type="text"/>
+</form>
+</div>
 </div>
 <div class="app-container">
 <!-- Sidebar Navigation -->
