@@ -344,32 +344,20 @@ function initAuth() {
     const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc1mIvmT7FQBOL415zz3Hm4iQBHJZqziNla9Z70Ozm4ihIqwA/formResponse";
     const ENTRY_FIELD = "entry.388968236";
 
-    // Clean up previously saved credentials if not teacher and not B212
-    const savedName = localStorage.getItem('vstep_sp2_b2_name') || '';
-    const savedClass = localStorage.getItem('vstep_sp2_b2_class') || '';
-    const isTeacherSaved = checkIfTeacher(savedName, savedClass);
-    
-    if (savedClass && !isTeacherSaved && savedClass.toUpperCase().replace(/\s+/g, '') !== 'B212') {
-        localStorage.removeItem('vstep_sp2_b2_name');
-        localStorage.removeItem('vstep_sp2_b2_class');
-        state.student.name = '';
-        state.student.classCode = '';
-    } else if (savedClass) {
-        state.student.name = savedName;
-        state.student.classCode = savedClass;
-        if (displayName) displayName.textContent = `${savedName} (${savedClass})`;
-        if (userProfile) userProfile.classList.remove('hidden');
-    }
-
-    if (nameInput && state.student.name) nameInput.value = state.student.name;
-    if (classInput && state.student.classCode) classInput.value = state.student.classCode;
-
-    // Show modal on startup to verify student / teacher
+    // Luôn luôn hiển thị modal đăng nhập mỗi khi tải lại trang / refresh
+    state.student.name = '';
+    state.student.classCode = '';
     if (welcomeModal) {
         welcomeModal.classList.remove('hidden');
         welcomeModal.style.display = 'flex';
         welcomeModal.style.opacity = '1';
     }
+    if (userProfile) {
+        userProfile.classList.add('hidden');
+    }
+    if (nameInput) nameInput.value = '';
+    if (classInput) classInput.value = '';
+    if (errorMsg) errorMsg.style.display = 'none';
 
     let isSubmitting = false;
 
@@ -379,8 +367,6 @@ function initAuth() {
 
         state.student.name = finalName;
         state.student.classCode = finalClass;
-        localStorage.setItem('vstep_sp2_b2_name', finalName);
-        localStorage.setItem('vstep_sp2_b2_class', finalClass);
 
         const isTeacher = checkIfTeacher(finalName, finalClass);
         applyAccessControl(isTeacher);
