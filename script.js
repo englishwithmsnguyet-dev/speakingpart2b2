@@ -271,6 +271,7 @@ const validStudentsB212 = [
     "Võ Thị Bảo Ngọc",
     "Lê Tiến Phát",
     "Nguyễn Hoàng Thông",
+    "Trần Hoàng Thông",
     "Nguyễn Kim Tiền",
     "Lê Thị Bảo Trân",
     "Võ Thị Diễm Trinh",
