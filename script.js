@@ -279,6 +279,11 @@ const validStudentsB212 = [
     "Nguyễn Thị Chúc Yến"
 ];
 
+const validStudentsB2 = [
+    "Gia Tuệ",
+    "Gia Tuê"
+];
+
 function normalizeStr(str) {
     return (str || '')
         .normalize('NFD')
@@ -414,7 +419,7 @@ function initAuth() {
             return;
         }
 
-        const formattedClass = classVal.toUpperCase().replace(/\s+/g, '');
+        let formattedClass = (classVal || '').toUpperCase().replace(/\s+/g, '').replace(/^(LỚP|LOP|CLASS)/i, '');
         const normName = normalizeStr(nameVal);
         const isTeacher = checkIfTeacher(nameVal, formattedClass);
 
@@ -424,17 +429,24 @@ function initAuth() {
         if (isTeacher) {
             finalName = nameVal || 'Cô Nguyệt (PTMN)';
             finalClass = formattedClass || 'GV';
-        } else {
-            // Strict check: Chỉ nhận lớp B212
-            if (formattedClass !== 'B212') {
+        } else if (formattedClass === 'B2') {
+            // Cấp quyền trực tiếp cho học viên Gia Tuệ / Gia Tuê theo chỉ định của giáo viên
+            const isGiaTue = normName.includes('gia tue') || 
+                            normName.includes('gia tuê') || 
+                            normName.includes('gia tuệ') ||
+                            normName.replace(/\s+/g, '').includes('giatue');
+
+            if (!isGiaTue) {
                 if (errorMsg) {
-                    errorMsg.textContent = 'Mã lớp không hợp lệ! Trang web hiện tại dành riêng cho lớp B212.';
+                    errorMsg.textContent = 'Họ tên không có trong danh sách lớp B2. Vui lòng kiểm tra lại!';
                     errorMsg.style.display = 'block';
                 }
-                if (classInput) classInput.focus();
+                if (nameInput) nameInput.focus();
                 return;
             }
-
+            finalName = nameVal.trim() || 'Gia Tuệ';
+            finalClass = 'B2';
+        } else if (formattedClass === 'B212') {
             // Kiểm tra danh sách học viên lớp B212
             const matchedStudent = validStudentsB212.find(s => normalizeStr(s) === normName);
             if (matchedStudent) {
@@ -448,6 +460,13 @@ function initAuth() {
                 if (nameInput) nameInput.focus();
                 return;
             }
+        } else {
+            if (errorMsg) {
+                errorMsg.textContent = 'Mã lớp không hợp lệ. Vui lòng kiểm tra lại!';
+                errorMsg.style.display = 'block';
+            }
+            if (classInput) classInput.focus();
+            return;
         }
 
         if (errorMsg) errorMsg.style.display = 'none';
