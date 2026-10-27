@@ -1144,6 +1144,41 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
+.cat-subtab-btn.locked {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background: rgba(148, 163, 184, 0.12) !important;
+    border-color: rgba(148, 163, 184, 0.25) !important;
+    color: var(--text-light) !important;
+}
+
+.cat-subtab-btn.locked:hover {
+    background: rgba(148, 163, 184, 0.12) !important;
+    border-color: rgba(148, 163, 184, 0.25) !important;
+    color: var(--text-light) !important;
+    transform: none !important;
+}
+
+.cat-subtab-btn .lock-pill {
+    margin-left: 0.35rem;
+    font-size: 0.68rem;
+    color: #64748b;
+    background: rgba(100, 116, 139, 0.15);
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    padding: 1px 6px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-weight: 700;
+}
+
+.dark-theme .cat-subtab-btn .lock-pill {
+    color: #94a3b8;
+    background: rgba(148, 163, 184, 0.2);
+    border-color: rgba(148, 163, 184, 0.3);
+}
+
 /* Practice Tools */
 .builder-vibrant-box {
     background: var(--bg-card);

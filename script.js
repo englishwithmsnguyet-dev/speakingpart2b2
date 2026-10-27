@@ -253,6 +253,7 @@ function initApp() {
    1. ACCESS CONTROL, AUTH & ATTENDANCE TRACKING (B212)
    ========================================================================== */
 const UNLOCKED_TABS_B212 = ['overview', 'group-gift', 'group-activity'];
+const LOCKED_SUBTABS_B212 = ['act-v-practice'];
 
 const validStudentsB212 = [
     "Nguyễn Duy Hồng Anh",
@@ -331,6 +332,30 @@ function applyAccessControl(isTeacher) {
                 pill.innerHTML = '<i class="fa-solid fa-lock"></i> Khóa';
                 link.appendChild(pill);
             }
+        }
+    });
+
+    // Subtab access control (tạm khóa các subtab cụ thể như TÌNH HUỐNG THỰC HÀNH cho B212)
+    const subTabBtns = document.querySelectorAll('.cat-subtab-btn, button[onclick*="switchSubTab"]');
+    subTabBtns.forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        const match = onclickAttr.match(/switchSubTab\s*\(\s*this\s*,\s*['"]([^'"]+)['"]\)/);
+        const subTabId = match ? match[1] : null;
+        if (!subTabId) return;
+
+        const existingPill = btn.querySelector('.lock-pill');
+        if (existingPill) existingPill.remove();
+
+        if (isTeacher || !LOCKED_SUBTABS_B212.includes(subTabId)) {
+            btn.classList.remove('locked');
+            btn.removeAttribute('title');
+        } else {
+            btn.classList.add('locked');
+            btn.setAttribute('title', 'Tạm khóa cho lớp B212');
+            const pill = document.createElement('span');
+            pill.className = 'lock-pill';
+            pill.innerHTML = '<i class="fa-solid fa-lock"></i> Khóa';
+            btn.appendChild(pill);
         }
     });
 }
@@ -618,6 +643,8 @@ function initNavigation() {
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
+        applyAccessControl(isTeacher);
+
         if (window.innerWidth <= 768) {
             closeSidebar();
         }
@@ -683,6 +710,12 @@ function initNavigation() {
 
 // Global sub-tab switch
 window.switchSubTab = function(btn, subTabId) {
+    const isTeacher = checkIfTeacher(state.student.name, state.student.classCode);
+    if (!isTeacher && LOCKED_SUBTABS_B212.includes(subTabId)) {
+        showToast('🔒 Phần Tình huống thực hành đang tạm khóa cho lớp B212 và sẽ được mở trong các buổi học tiếp theo!');
+        return;
+    }
+
     const parentContainer = btn.closest('.tab-pane');
     if (!parentContainer) return;
     
