@@ -252,7 +252,7 @@ function initApp() {
 /* ==========================================================================
    1. ACCESS CONTROL, AUTH & ATTENDANCE TRACKING (B212)
    ========================================================================== */
-const UNLOCKED_TABS_B212 = ['overview', 'group-gift'];
+const UNLOCKED_TABS_B212 = ['overview', 'group-gift', 'group-activity'];
 
 const validStudentsB212 = [
     "Nguyễn Duy Hồng Anh",
