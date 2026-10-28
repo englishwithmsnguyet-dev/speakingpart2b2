@@ -250,10 +250,38 @@ function initApp() {
 }
 
 /* ==========================================================================
-   1. ACCESS CONTROL, AUTH & ATTENDANCE TRACKING (B212)
+   1. ACCESS CONTROL, AUTH & ATTENDANCE TRACKING (B212 & B2)
    ========================================================================== */
 const UNLOCKED_TABS_B212 = ['overview', 'group-gift', 'group-activity'];
 const LOCKED_SUBTABS_B212 = ['act-v-practice'];
+
+const UNLOCKED_TABS_B2 = [
+    'overview',
+    'group-gift',
+    'group-activity',
+    'group-location',
+    'group-transport',
+    'group-career',
+    'tool-timer',
+    'tool-flashcards'
+];
+const LOCKED_SUBTABS_B2 = [];
+
+function getUnlockedTabsForCurrentUser() {
+    const classCode = (state.student.classCode || '').toUpperCase().trim();
+    if (classCode === 'B2') {
+        return UNLOCKED_TABS_B2;
+    }
+    return UNLOCKED_TABS_B212;
+}
+
+function getLockedSubtabsForCurrentUser() {
+    const classCode = (state.student.classCode || '').toUpperCase().trim();
+    if (classCode === 'B2') {
+        return LOCKED_SUBTABS_B2;
+    }
+    return LOCKED_SUBTABS_B212;
+}
 
 const validStudentsB212 = [
     "Nguyễn Duy Hồng Anh",
@@ -314,18 +342,22 @@ function checkIfTeacher(name, classCode) {
 }
 
 function applyAccessControl(isTeacher) {
+    const unlockedTabs = getUnlockedTabsForCurrentUser();
+    const lockedSubtabs = getLockedSubtabsForCurrentUser();
+    const classLabel = (state.student.classCode || 'B212').toUpperCase();
+
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
         const target = item.dataset.target;
         const existingPill = item.querySelector('.lock-pill');
         if (existingPill) existingPill.remove();
 
-        if (isTeacher || UNLOCKED_TABS_B212.includes(target)) {
+        if (isTeacher || unlockedTabs.includes(target)) {
             item.classList.remove('locked');
             item.removeAttribute('title');
         } else {
             item.classList.add('locked');
-            item.setAttribute('title', 'Tạm khóa cho lớp B212');
+            item.setAttribute('title', `Tạm khóa cho lớp ${classLabel}`);
             const link = item.querySelector('a');
             if (link) {
                 const pill = document.createElement('span');
@@ -336,7 +368,7 @@ function applyAccessControl(isTeacher) {
         }
     });
 
-    // Subtab access control (tạm khóa các subtab cụ thể như TÌNH HUỐNG THỰC HÀNH cho B212)
+    // Subtab access control (tạm khóa các subtab cụ thể như TÌNH HUỐNG THỰC HÀNH cho B212, mở đầy đủ cho B2)
     const subTabBtns = document.querySelectorAll('.cat-subtab-btn, button[onclick*="switchSubTab"]');
     subTabBtns.forEach(btn => {
         const onclickAttr = btn.getAttribute('onclick') || '';
@@ -347,12 +379,12 @@ function applyAccessControl(isTeacher) {
         const existingPill = btn.querySelector('.lock-pill');
         if (existingPill) existingPill.remove();
 
-        if (isTeacher || !LOCKED_SUBTABS_B212.includes(subTabId)) {
+        if (isTeacher || !lockedSubtabs.includes(subTabId)) {
             btn.classList.remove('locked');
             btn.removeAttribute('title');
         } else {
             btn.classList.add('locked');
-            btn.setAttribute('title', 'Tạm khóa cho lớp B212');
+            btn.setAttribute('title', `Tạm khóa cho lớp ${classLabel}`);
             const pill = document.createElement('span');
             pill.className = 'lock-pill';
             pill.innerHTML = '<i class="fa-solid fa-lock"></i> Khóa';
@@ -402,7 +434,8 @@ function initAuth() {
         const isTeacher = checkIfTeacher(finalName, finalClass);
         applyAccessControl(isTeacher);
 
-        if (!isTeacher && !UNLOCKED_TABS_B212.includes(state.activeTab)) {
+        const unlockedTabs = getUnlockedTabsForCurrentUser();
+        if (!isTeacher && !unlockedTabs.includes(state.activeTab)) {
             if (typeof window.switchTab === 'function') {
                 window.switchTab('group-gift');
             }
@@ -613,8 +646,10 @@ function initNavigation() {
 
     window.switchTab = function(targetId) {
         const isTeacher = checkIfTeacher(state.student.name, state.student.classCode);
-        if (!isTeacher && !UNLOCKED_TABS_B212.includes(targetId)) {
-            showToast('🔒 Nội dung này đang tạm khóa cho lớp B212 và sẽ được mở trong các buổi học tiếp theo!');
+        const unlockedTabs = getUnlockedTabsForCurrentUser();
+        const classLabel = (state.student.classCode || 'B212').toUpperCase();
+        if (!isTeacher && !unlockedTabs.includes(targetId)) {
+            showToast(`🔒 Nội dung này đang tạm khóa cho lớp ${classLabel} và sẽ được mở trong các buổi học tiếp theo!`);
             targetId = 'group-gift';
         }
 
@@ -658,8 +693,10 @@ function initNavigation() {
             if (!target) return;
 
             const isTeacher = checkIfTeacher(state.student.name, state.student.classCode);
-            if (!isTeacher && !UNLOCKED_TABS_B212.includes(target)) {
-                showToast('🔒 Nội dung này đang tạm khóa cho lớp B212 và sẽ được mở trong các buổi học tiếp theo!');
+            const unlockedTabs = getUnlockedTabsForCurrentUser();
+            const classLabel = (state.student.classCode || 'B212').toUpperCase();
+            if (!isTeacher && !unlockedTabs.includes(target)) {
+                showToast(`🔒 Nội dung này đang tạm khóa cho lớp ${classLabel} và sẽ được mở trong các buổi học tiếp theo!`);
                 return;
             }
 
@@ -698,8 +735,9 @@ function initNavigation() {
 
     // Hash check on load
     const currentHash = window.location.hash.replace('#', '');
+    const unlockedTabs = getUnlockedTabsForCurrentUser();
     if (currentHash && document.getElementById(currentHash)) {
-        if (!isTeacher && !UNLOCKED_TABS_B212.includes(currentHash)) {
+        if (!isTeacher && !unlockedTabs.includes(currentHash)) {
             window.switchTab('group-gift');
         } else {
             window.switchTab(currentHash);
@@ -712,8 +750,10 @@ function initNavigation() {
 // Global sub-tab switch
 window.switchSubTab = function(btn, subTabId) {
     const isTeacher = checkIfTeacher(state.student.name, state.student.classCode);
-    if (!isTeacher && LOCKED_SUBTABS_B212.includes(subTabId)) {
-        showToast('🔒 Phần Tình huống thực hành đang tạm khóa cho lớp B212 và sẽ được mở trong các buổi học tiếp theo!');
+    const lockedSubtabs = getLockedSubtabsForCurrentUser();
+    const classLabel = (state.student.classCode || 'B212').toUpperCase();
+    if (!isTeacher && lockedSubtabs.includes(subTabId)) {
+        showToast(`🔒 Phần Tình huống thực hành đang tạm khóa cho lớp ${classLabel} và sẽ được mở trong các buổi học tiếp theo!`);
         return;
     }
 
