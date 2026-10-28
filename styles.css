@@ -960,8 +960,7 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
     line-height: 1.9;
     color: var(--text-main);
     margin: 0.5rem 0 0.75rem;
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 .reason-color-box.reject .reason-speech-box {
@@ -987,8 +986,7 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
     font-size: 1.05rem;
     line-height: 1.9;
     margin-bottom: 1.5rem;
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 .response-breakdown {
@@ -1028,8 +1026,7 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
     font-size: 1rem;
     line-height: 1.9;
     color: var(--text-main);
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 /* ==========================================================================
@@ -1740,8 +1737,7 @@ p, .clean-p {
     line-height: 2.05;
     padding: 1.1rem 1.4rem;
     margin: 0.75rem 0 0.9rem;
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 .tag-syntax {
@@ -1919,8 +1915,7 @@ body.dark-theme .sit-badge-num.purple { background: #581c87; color: #e9d5ff; }
     font-size: 1.02rem;
     line-height: 1.85;
     color: var(--text-main);
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 
@@ -2622,8 +2617,7 @@ body.dark-theme .rej-group-2 .hl-reason {
     font-size: 0.98rem;
     line-height: 1.85;
     color: var(--text-main);
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 .trans-text strong em,
@@ -2746,8 +2740,7 @@ body.dark-theme .trans-text em strong {
     font-style: normal;
     color: var(--text-main);
     line-height: 2;
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 body.dark-theme .example-box-header .btn-pill-tts {
@@ -3087,8 +3080,7 @@ body.dark-theme .sit-sample-title {
     font-size: 0.98rem;
     line-height: 1.85;
     color: var(--text-main);
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     transition: all 0.15s ease;
 }
@@ -3164,8 +3156,7 @@ body.dark-theme .sit-sample-step.concl {
     line-height: 1.65;
     color: #475569;
     font-style: italic;
-    text-align: justify;
-    text-justify: inter-word;
+    text-align: left;
 }
 
 body.dark-theme .sit-sample-trans {
