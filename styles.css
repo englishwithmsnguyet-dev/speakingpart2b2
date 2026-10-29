@@ -954,13 +954,15 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
 .reason-speech-box {
     background: var(--emerald-light);
     border: 1px solid var(--emerald-border);
-    padding: 0.95rem 1.15rem;
+    padding: 1.1rem 1.4rem;
     border-radius: var(--radius-sm);
     font-size: 1rem;
-    line-height: 1.9;
+    line-height: 2.2;
     color: var(--text-main);
-    margin: 0.5rem 0 0.75rem;
-    text-align: left;
+    margin: 0.75rem 0 0.95rem;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
 }
 
 .reason-color-box.reject .reason-speech-box {
@@ -984,9 +986,11 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
     border-radius: var(--radius-md);
     padding: 1.25rem 1.5rem;
     font-size: 1.05rem;
-    line-height: 1.9;
+    line-height: 2.1;
     margin-bottom: 1.5rem;
-    text-align: left;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
 }
 
 .response-breakdown {
@@ -1023,10 +1027,12 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
 .label-concl { color: var(--emerald); }
 
 .breakdown-text {
-    font-size: 1rem;
-    line-height: 1.9;
+    font-size: 1.02rem;
+    line-height: 2.2;
     color: var(--text-main);
-    text-align: left;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
 }
 
 /* ==========================================================================
@@ -1734,10 +1740,12 @@ p, .clean-p {
 }
 
 .reason-speech-box {
-    line-height: 2.05;
-    padding: 1.1rem 1.4rem;
-    margin: 0.75rem 0 0.9rem;
-    text-align: left;
+    line-height: 2.2;
+    padding: 1.15rem 1.45rem;
+    margin: 0.75rem 0 0.95rem;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
 }
 
 .tag-syntax {
@@ -1912,10 +1920,12 @@ body.dark-theme .sit-badge-num.purple { background: #581c87; color: #e9d5ff; }
 }
 
 .sit-prompt-text {
-    font-size: 1.02rem;
-    line-height: 1.85;
+    font-size: 1.05rem;
+    line-height: 2.15;
     color: var(--text-main);
-    text-align: left;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
 }
 
 
@@ -2739,8 +2749,10 @@ body.dark-theme .trans-text em strong {
 .example-speech-text {
     font-style: normal;
     color: var(--text-main);
-    line-height: 2;
-    text-align: left;
+    line-height: 2.2;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
 }
 
 body.dark-theme .example-box-header .btn-pill-tts {
@@ -3076,11 +3088,13 @@ body.dark-theme .sit-sample-title {
     border: 1px solid #e2e8f0;
     border-left: 4.5px solid var(--primary);
     border-radius: 8px;
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1.15rem;
     font-size: 0.98rem;
-    line-height: 1.85;
+    line-height: 2.15;
     color: var(--text-main);
-    text-align: left;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     transition: all 0.15s ease;
 }
@@ -3813,4 +3827,22 @@ body.dark-theme .sit-action-btn.btn-sample-toggle.active-tab-sample {
 
 .login-btn:active {
     transform: scale(0.98);
+}
+
+/* Unified Justify & Line Spacing Enhancements */
+.speech-vi,
+.reason-vi-text {
+    font-size: 0.88rem;
+    line-height: 1.75 !important;
+    text-align: justify !important;
+    text-justify: auto !important;
+    text-align-last: left !important;
+}
+
+.hint-cat-focus,
+.hint-cat-wrap {
+    line-height: 1.85 !important;
+    text-align: justify !important;
+    text-justify: auto !important;
+    text-align-last: left !important;
 }
