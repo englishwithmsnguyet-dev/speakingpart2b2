@@ -262,6 +262,10 @@ const UNLOCKED_TABS_B2 = [
     'group-location',
     'group-transport',
     'group-career',
+    'group-factor',
+    'group-solution',
+    'group-form',
+    'group-other',
     'tool-timer',
     'tool-flashcards'
 ];
