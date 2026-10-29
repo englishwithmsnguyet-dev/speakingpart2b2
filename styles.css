@@ -2961,6 +2961,7 @@ body.dark-theme .reason-color-box.reject .example-box-header .btn-pill-tts {
     font-style: italic;
     opacity: 0.85;
     margin-left: 0.35rem;
+    display: inline-block;
 }
 
 body.dark-theme .kw-table {
@@ -2990,6 +2991,11 @@ body.dark-theme .kw-table tr:nth-child(even) td {
     }
     .kw-table th {
         font-size: 0.78rem;
+    }
+    .kw-trans {
+        display: block;
+        margin-left: 0;
+        margin-top: 0.2rem;
     }
 }
 
@@ -3162,20 +3168,205 @@ body.dark-theme .sit-sample-step.concl {
 .sit-sample-step.reject .step-badge { background: #ffe4e6; color: #9f1239; }
 .sit-sample-step.concl .step-badge { background: #ede9fe; color: #5b21b6; }
 
-.sit-sample-trans {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px dashed rgba(124, 58, 237, 0.22);
-    font-size: 0.88rem;
-    line-height: 1.65;
-    color: #475569;
-    font-style: italic;
-    text-align: left;
+/* Translation Toggle Button */
+.btn-trans-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.9rem;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1.5px solid #bfdbfe;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08);
+    user-select: none;
+    line-height: 1.4;
 }
 
-body.dark-theme .sit-sample-trans {
-    color: #cbd5e1;
+.btn-trans-toggle i.fa-language {
+    font-size: 0.98rem;
+    color: #2563eb;
+}
+
+.btn-trans-toggle i.fa-caret-down,
+.btn-trans-toggle i.fa-caret-up {
+    font-size: 0.82rem;
+    color: #2563eb;
+    transition: transform 0.2s ease;
+}
+
+.btn-trans-toggle:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+    color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.16);
+}
+
+.btn-trans-toggle.active {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.btn-trans-toggle.active i.fa-language,
+.btn-trans-toggle.active i.fa-caret-down,
+.btn-trans-toggle.active i.fa-caret-up {
+    color: #ffffff !important;
+}
+
+body.dark-theme .btn-trans-toggle {
+    background: rgba(37, 99, 235, 0.15);
+    border-color: rgba(147, 197, 253, 0.35);
+    color: #93c5fd;
+}
+
+body.dark-theme .btn-trans-toggle i.fa-language,
+body.dark-theme .btn-trans-toggle i.fa-caret-down,
+body.dark-theme .btn-trans-toggle i.fa-caret-up {
+    color: #93c5fd;
+}
+
+body.dark-theme .btn-trans-toggle:hover {
+    background: rgba(37, 99, 235, 0.28);
+    border-color: #93c5fd;
+    color: #ffffff;
+}
+
+body.dark-theme .btn-trans-toggle:hover i {
+    color: #ffffff !important;
+}
+
+body.dark-theme .btn-trans-toggle.active {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+/* Sample Speech Translation Wrapper & Structured Step Cards */
+.sit-sample-trans-wrapper {
+    margin-top: 0.85rem;
+    padding-top: 0.65rem;
+    border-top: 1px dashed rgba(124, 58, 237, 0.2);
+}
+
+.sit-sample-trans-wrapper .sit-sample-trans {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0.65rem;
+    font-style: normal;
+}
+
+.sit-trans-header {
+    font-weight: 700;
+    color: var(--primary, #7c3aed);
+    margin-bottom: 0.65rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sit-trans-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sit-trans-step {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 3.5px solid #94a3b8;
+    border-radius: 6px;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-main, #1e293b);
+    text-align: justify;
+    text-justify: inter-word;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.sit-trans-step.intro {
+    border-left-color: #3b82f6;
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.04), #ffffff);
+}
+
+.sit-trans-step.reason1 {
+    border-left-color: #10b981;
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.04), #ffffff);
+}
+
+.sit-trans-step.reason2 {
+    border-left-color: #06b6d4;
+    background: linear-gradient(to right, rgba(6, 182, 212, 0.04), #ffffff);
+}
+
+.sit-trans-step.reject {
+    border-left-color: #f43f5e;
+    background: linear-gradient(to right, rgba(244, 63, 94, 0.04), #ffffff);
+}
+
+.sit-trans-step.concl {
+    border-left-color: #8b5cf6;
+    background: linear-gradient(to right, rgba(139, 92, 246, 0.04), #ffffff);
+}
+
+.sit-trans-step .step-badge {
+    font-weight: 800;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: inline-block;
+    padding: 0.12rem 0.45rem;
+    border-radius: 4px;
+    margin-right: 0.45rem;
+    vertical-align: middle;
+}
+
+.sit-trans-step.intro .step-badge { background: #dbeafe; color: #1e40af; }
+.sit-trans-step.reason1 .step-badge { background: #d1fae5; color: #065f46; }
+.sit-trans-step.reason2 .step-badge { background: #cffafe; color: #155e75; }
+.sit-trans-step.reject .step-badge { background: #ffe4e6; color: #9f1239; }
+.sit-trans-step.concl .step-badge { background: #ede9fe; color: #5b21b6; }
+
+/* Dark mode */
+body.dark-theme .sit-sample-trans-wrapper {
     border-top-color: rgba(167, 139, 250, 0.25);
+}
+
+body.dark-theme .sit-trans-header {
+    color: #c4b5fd;
+}
+
+body.dark-theme .sit-trans-step {
+    background: rgba(15, 23, 42, 0.4);
+    border-color: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+}
+
+body.dark-theme .sit-trans-step.intro {
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.08), rgba(15, 23, 42, 0.4));
+}
+
+body.dark-theme .sit-trans-step.reason1 {
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.08), rgba(15, 23, 42, 0.4));
+}
+
+body.dark-theme .sit-trans-step.reason2 {
+    background: linear-gradient(to right, rgba(6, 182, 212, 0.08), rgba(15, 23, 42, 0.4));
+}
+
+body.dark-theme .sit-trans-step.reject {
+    background: linear-gradient(to right, rgba(244, 63, 94, 0.08), rgba(15, 23, 42, 0.4));
+}
+
+body.dark-theme .sit-trans-step.concl {
+    background: linear-gradient(to right, rgba(139, 92, 246, 0.08), rgba(15, 23, 42, 0.4));
 }
 
 .sit-sample-nav {

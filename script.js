@@ -198,6 +198,32 @@ window.copyCardSample = function(btn) {
     }
 };
 
+window.toggleTransBox = function(btn) {
+    const wrapper = btn.closest('.reason-trans-wrapper') || btn.closest('.sit-sample-trans-wrapper') || btn.parentElement;
+    if (!wrapper) return;
+    const box = wrapper.querySelector('.reason-trans-box, .sit-sample-trans');
+    if (!box) return;
+    
+    const isHidden = box.classList.contains('hidden');
+    if (isHidden) {
+        box.classList.remove('hidden');
+        btn.classList.add('active');
+        const caret = btn.querySelector('.fa-caret-down, .fa-caret-up');
+        if (caret) {
+            caret.classList.remove('fa-caret-down');
+            caret.classList.add('fa-caret-up');
+        }
+    } else {
+        box.classList.add('hidden');
+        btn.classList.remove('active');
+        const caret = btn.querySelector('.fa-caret-down, .fa-caret-up');
+        if (caret) {
+            caret.classList.remove('fa-caret-up');
+            caret.classList.add('fa-caret-down');
+        }
+    }
+};
+
 
 /**
  * VSTEP SPEAKING PART 02 (B2 LEVEL) - INTERACTIVE ENGINE
