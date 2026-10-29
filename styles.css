@@ -3966,6 +3966,29 @@ body.dark-theme .reason-vi-details .reason-vi-content {
     text-align-last: left;
     box-shadow: 0 2px 6px rgba(217, 119, 6, 0.08);
 }
+
+.teacher-note-box .note-freedom {
+    margin-bottom: 0.45rem;
+}
+.teacher-note-box .note-custom-ideas {
+    margin-top: 0.25rem;
+}
+.teacher-note-box ul {
+    margin: 0.35rem 0 0.45rem 1.25rem;
+    padding: 0;
+}
+.teacher-note-box li {
+    margin-bottom: 0.3rem;
+}
+.teacher-note-box em {
+    color: #92400e;
+    background: rgba(251, 191, 36, 0.25);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-style: italic;
+    font-weight: 500;
+}
+
 .teacher-note-box .note-title {
     font-weight: 800;
     color: #b45309;
