@@ -3947,3 +3947,46 @@ body.dark-theme .reason-vi-details .reason-vi-content {
     border-color: rgba(148, 163, 184, 0.2);
     color: #cbd5e1;
 }
+
+/* ==========================================================================
+   TEACHER'S NOTE BOX (LƯU Ý TỪ CÔ NGUYỆT)
+   ========================================================================== */
+.teacher-note-box {
+    background: linear-gradient(135deg, rgba(254, 243, 199, 0.75) 0%, rgba(254, 249, 195, 0.75) 100%);
+    border: 1.5px solid #f59e0b;
+    border-left: 5px solid #d97706;
+    border-radius: 10px;
+    padding: 0.85rem 1.15rem;
+    margin: 0.75rem 0 1rem;
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: #78350f;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
+    box-shadow: 0 2px 6px rgba(217, 119, 6, 0.08);
+}
+.teacher-note-box .note-title {
+    font-weight: 800;
+    color: #b45309;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.35rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.teacher-note-box .note-title i {
+    color: #d97706;
+    font-size: 1.05rem;
+}
+body.dark-theme .teacher-note-box {
+    background: rgba(120, 53, 15, 0.25);
+    border-color: rgba(245, 158, 11, 0.4);
+    border-left-color: #f59e0b;
+    color: #fef3c7;
+}
+body.dark-theme .teacher-note-box .note-title {
+    color: #fbbf24;
+}
