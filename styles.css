@@ -3846,3 +3846,104 @@ body.dark-theme .sit-action-btn.btn-sample-toggle.active-tab-sample {
     text-justify: auto !important;
     text-align-last: left !important;
 }
+
+/* ==========================================================================
+   REASON TRANSLATION TOGGLE (DETAILS/SUMMARY)
+   ========================================================================== */
+.reason-vi-details {
+    margin: 0.35rem 0 0.85rem 0.25rem;
+}
+.reason-vi-details summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.06);
+    border: 1px solid rgba(37, 99, 235, 0.22);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    list-style: none;
+    outline: none;
+}
+.reason-vi-details summary::-webkit-details-marker {
+    display: none;
+}
+.reason-vi-details summary span.txt::before {
+    content: "Dịch nghĩa";
+}
+.reason-vi-details[open] summary span.txt::before {
+    content: "Ẩn dịch";
+}
+.reason-vi-details summary::after {
+    content: "▾";
+    font-size: 0.85rem;
+    margin-left: 0.2rem;
+    transition: transform 0.2s ease;
+}
+.reason-vi-details[open] summary::after {
+    transform: rotate(180deg);
+}
+.reason-vi-details summary:hover {
+    background: rgba(37, 99, 235, 0.12);
+    border-color: #2563eb;
+    transform: translateY(-1px);
+}
+.reason-vi-details[open] summary {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+.reason-vi-details .reason-vi-content {
+    margin-top: 0.55rem;
+    padding: 0.75rem 1.05rem;
+    background: rgba(248, 250, 252, 0.95);
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    color: #475569;
+    font-style: italic;
+    line-height: 1.75;
+    text-align: justify;
+    text-justify: auto;
+    text-align-last: left;
+    animation: fadeIn 0.2s ease;
+}
+.reason-color-box.reject .reason-vi-details summary {
+    color: #e11d48;
+    background: rgba(225, 29, 72, 0.06);
+    border-color: rgba(225, 29, 72, 0.22);
+}
+.reason-color-box.reject .reason-vi-details summary:hover {
+    background: rgba(225, 29, 72, 0.12);
+    border-color: #e11d48;
+}
+.reason-color-box.reject .reason-vi-details[open] summary {
+    background: #e11d48;
+    color: #ffffff;
+    border-color: #e11d48;
+}
+.reason-color-box.reject .reason-vi-details .reason-vi-content {
+    background: rgba(255, 241, 242, 0.7);
+    border-color: #fecdd3;
+    color: #881337;
+}
+
+body.dark-theme .reason-vi-details summary {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+}
+body.dark-theme .reason-vi-details[open] summary {
+    background: #0284c7;
+    color: #ffffff;
+}
+body.dark-theme .reason-vi-details .reason-vi-content {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(148, 163, 184, 0.2);
+    color: #cbd5e1;
+}
