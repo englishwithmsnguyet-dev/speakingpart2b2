@@ -241,6 +241,10 @@ const state = {
         name: localStorage.getItem('vstep_sp2_b2_name') || '',
         classCode: localStorage.getItem('vstep_sp2_b2_class') || ''
     },
+    completedSituations: [],
+    lastGroup: 'group-gift',
+    lastSitId: null,
+    lastSavedTime: null,
     audioEnabled: true,
     selectedVoiceURI: localStorage.getItem('vstep_voice_uri') || null,
     theme: localStorage.getItem('vstep_theme') || 'light',
@@ -264,6 +268,7 @@ function initApp() {
     initAnswerBuilder();
     initExamTimerAndRecorder();
     initFlashcards();
+    initLearningProgress();
 
     const sampleFullBtn = document.getElementById('play-full-sample-btn');
     if (sampleFullBtn) {
@@ -490,6 +495,14 @@ function initAuth() {
         isSubmitting = false;
 
         showToast(`Chào mừng ${finalName} - Lớp ${finalClass} đến với bài học Speaking Part 02! 🚀`);
+
+        initLearningProgress();
+        if (state.completedSituations && state.completedSituations.length > 0) {
+            const pct = Math.round((state.completedSituations.length / TOTAL_SITUATIONS) * 100);
+            setTimeout(() => {
+                showToast(`🎉 Đã khôi phục tiến độ: Đã học ${state.completedSituations.length}/${TOTAL_SITUATIONS} đề (${pct}%)!`);
+            }, 1200);
+        }
     };
 
     function enterApp() {
@@ -2169,3 +2182,310 @@ window.switchSampleCard = function(btn, panelId) {
         }
     });
 };
+
+
+// ==========================================================================
+// LEARNING PROGRESS TRACKING SYSTEM (VSTEP B2 LEVEL)
+// ==========================================================================
+const GROUPS_INFO = [
+    { id: 'group-gift', name: '1. Chọn Quà Tặng', total: 14, icon: 'fa-gift', color: '#f43f5e' },
+    { id: 'group-activity', name: '2. Chọn Hoạt Động', total: 14, icon: 'fa-person-running', color: '#10b981' },
+    { id: 'group-location', name: '3. Chọn Địa Điểm', total: 14, icon: 'fa-location-dot', color: '#0284c7' },
+    { id: 'group-transport', name: '4. Chọn Phương Tiện', total: 6, icon: 'fa-car-side', color: '#f59e0b' },
+    { id: 'group-career', name: '5. Chọn Nghề Nghiệp', total: 7, icon: 'fa-briefcase', color: '#4f46e5' },
+    { id: 'group-factor', name: '6. Chọn Yếu Tố', total: 10, icon: 'fa-sliders', color: '#db2777' },
+    { id: 'group-solution', name: '7. Chọn Giải Pháp', total: 14, icon: 'fa-lightbulb', color: '#8b5cf6' },
+    { id: 'group-form', name: '8. Chọn Hình Thức', total: 6, icon: 'fa-shapes', color: '#0d9488' },
+    { id: 'group-other', name: '9. Những Đề Khó Khác', total: 13, icon: 'fa-fire', color: '#64748b' }
+];
+const TOTAL_SITUATIONS = 98;
+const PROGRESS_STORAGE_KEY = 'vstep_sp2_b2_progress';
+
+function getGroupName(groupId) {
+    const g = GROUPS_INFO.find(x => x.id === groupId);
+    return g ? g.name : 'Tình huống';
+}
+
+function formatSavedTime(isoStr) {
+    if (!isoStr) return 'Chưa lưu';
+    try {
+        const d = new Date(isoStr);
+        return d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ', ' + d.toLocaleDateString('vi-VN');
+    } catch(e) {
+        return isoStr;
+    }
+}
+
+function getProgressStorageKey() {
+    const sName = (state.student.name || '').trim().toLowerCase().replace(/\s+/g, '_');
+    return sName ? `${PROGRESS_STORAGE_KEY}_${sName}` : PROGRESS_STORAGE_KEY;
+}
+
+function saveLearningProgress(silent = true) {
+    try {
+        const data = {
+            version: 1,
+            studentName: state.student.name || 'Học viên',
+            studentClass: state.student.classCode || '',
+            completedSituations: state.completedSituations || [],
+            lastGroup: state.lastGroup || state.activeTab || 'group-gift',
+            lastSitId: state.lastSitId || null,
+            lastSavedTime: new Date().toISOString()
+        };
+        const key = getProgressStorageKey();
+        localStorage.setItem(key, JSON.stringify(data));
+        localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(data));
+        state.lastSavedTime = data.lastSavedTime;
+        updateProgressUI();
+        if (!silent) {
+            showToast('💾 Tiến độ học tập đã được lưu an toàn!');
+        }
+    } catch (e) {
+        console.error('saveLearningProgress error:', e);
+    }
+}
+
+function loadLearningProgress() {
+    try {
+        const key = getProgressStorageKey();
+        let raw = localStorage.getItem(key);
+        if (!raw) {
+            raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+        }
+        if (!raw) return null;
+        return JSON.parse(raw);
+    } catch (e) {
+        return null;
+    }
+}
+
+window.saveLearningProgressManual = function() {
+    saveLearningProgress(false);
+};
+
+window.toggleSituationLearned = function(btn, sitId) {
+    if (!state.completedSituations) state.completedSituations = [];
+    const idx = state.completedSituations.indexOf(sitId);
+    const card = document.getElementById('sit-card-' + sitId) || (btn ? btn.closest('.practice-situation-card') : null);
+    const sitNum = card ? (card.getAttribute('data-sit-num') || '') : '';
+    const gid = card ? (card.getAttribute('data-group') || state.activeTab) : state.activeTab;
+    const groupName = getGroupName(gid);
+
+    if (idx >= 0) {
+        state.completedSituations.splice(idx, 1);
+        if (btn) {
+            btn.classList.remove('completed');
+            btn.innerHTML = '<i class="fa-regular fa-circle-check"></i> <span>Đánh dấu đã học</span>';
+        }
+        if (card) {
+            card.classList.remove('is-completed');
+            const badge = card.querySelector('.sit-learned-badge');
+            if (badge) badge.classList.add('hidden');
+        }
+        showToast(`Đã bỏ đánh dấu: ${groupName} - Đề ${sitNum}`);
+    } else {
+        state.completedSituations.push(sitId);
+        state.lastSitId = sitId;
+        state.lastGroup = gid;
+        if (btn) {
+            btn.classList.add('completed');
+            btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Đã hoàn thành</span>';
+        }
+        if (card) {
+            card.classList.add('is-completed');
+            const badge = card.querySelector('.sit-learned-badge');
+            if (badge) badge.classList.remove('hidden');
+        }
+        showToast(`🎉 Tuyệt vời! Đã hoàn thành: ${groupName} - Đề ${sitNum}!`);
+    }
+
+    saveLearningProgress(true);
+    updateProgressUI();
+};
+
+function updateProgressUI() {
+    const list = state.completedSituations || [];
+    const count = list.length;
+    const percent = Math.round((count / TOTAL_SITUATIONS) * 100);
+
+    // Sidebar mini badge
+    const sbPercent = document.getElementById('sidebar-progress-percent');
+    if (sbPercent) sbPercent.textContent = `${percent}%`;
+    const sbBar = document.getElementById('sidebar-progress-bar');
+    if (sbBar) sbBar.style.width = `${percent}%`;
+    const sbText = document.getElementById('sidebar-progress-text');
+    if (sbText) sbText.textContent = `${count} / ${TOTAL_SITUATIONS} đề đã học`;
+
+    // Top bar button text
+    const topText = document.getElementById('top-progress-text');
+    if (topText) topText.textContent = `${count}/${TOTAL_SITUATIONS}`;
+    const topBtn = document.getElementById('top-progress-btn');
+    if (topBtn) topBtn.title = `Xem tiến độ học tập (Đã hoàn thành: ${count}/${TOTAL_SITUATIONS} - ${percent}%)`;
+
+    // Group pills in sidebar
+    GROUPS_INFO.forEach(g => {
+        const pill = document.getElementById(`nav-prog-${g.id}`);
+        if (pill) {
+            const gCount = list.filter(id => id.startsWith(g.id)).length;
+            pill.textContent = `${gCount}/${g.total}`;
+            pill.classList.remove('completed', 'partial');
+            if (gCount === g.total) {
+                pill.classList.add('completed');
+                pill.textContent = `${gCount}/${g.total} ✓`;
+            } else if (gCount > 0) {
+                pill.classList.add('partial');
+            }
+        }
+    });
+
+    // Progress Modal fields
+    const mStudent = document.getElementById('progress-modal-student');
+    if (mStudent) mStudent.textContent = `Học viên: ${state.student.name || 'Khách'}`;
+    const mClass = document.getElementById('progress-modal-class');
+    if (mClass) mClass.textContent = `Lớp: ${state.student.classCode || '-'}`;
+    const mLastSaved = document.getElementById('progress-modal-last-saved');
+    if (mLastSaved) {
+        mLastSaved.innerHTML = `<i class="fa-regular fa-clock"></i> Lần lưu gần nhất: ${formatSavedTime(state.lastSavedTime)}`;
+    }
+    const mCount = document.getElementById('progress-modal-count');
+    if (mCount) mCount.textContent = count;
+    const mPercent = document.getElementById('progress-modal-percent');
+    if (mPercent) mPercent.textContent = `${percent}%`;
+    const mBar = document.getElementById('progress-modal-bar');
+    if (mBar) mBar.style.width = `${percent}%`;
+
+    // Render group list in modal
+    const groupsContainer = document.getElementById('progress-modal-groups-list');
+    if (groupsContainer) {
+        groupsContainer.innerHTML = GROUPS_INFO.map(g => {
+            const gCount = list.filter(id => id.startsWith(g.id)).length;
+            const gPct = Math.round((gCount / g.total) * 100);
+            const isDone = gCount === g.total;
+            return `
+            <div class="progress-group-item" onclick="jumpToGroupFromModal('${g.id}')" title="Nhấp để chuyển tới nhóm ${g.name}">
+                <div class="progress-group-info">
+                    <div class="progress-group-top">
+                        <span class="progress-group-name"><i class="fa-solid ${g.icon}" style="color:${g.color};"></i> ${g.name}</span>
+                        <span class="progress-group-badge ${isDone ? 'done' : ''}">${gCount} / ${g.total} (${gPct}%)</span>
+                    </div>
+                    <div class="progress-group-bar">
+                        <div class="progress-group-bar-fill" style="width:${gPct}%; ${isDone ? 'background:#10b981;' : ''}"></div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="color:var(--text-light); font-size:0.8rem;"></i>
+            </div>
+            `;
+        }).join('');
+    }
+}
+
+window.openProgressModal = function() {
+    const modal = document.getElementById('progress-modal');
+    if (!modal) return;
+    updateProgressUI();
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+};
+
+window.closeProgressModal = function() {
+    const modal = document.getElementById('progress-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+    }
+};
+
+window.jumpToGroupFromModal = function(groupId) {
+    closeProgressModal();
+    if (typeof window.switchTab === 'function') {
+        window.switchTab(groupId);
+    }
+};
+
+window.continueLastSituation = function() {
+    closeProgressModal();
+    const targetGroup = state.lastGroup || 'group-gift';
+    if (typeof window.switchTab === 'function') {
+        window.switchTab(targetGroup);
+    }
+    if (state.lastSitId) {
+        setTimeout(() => {
+            const card = document.getElementById('sit-card-' + state.lastSitId);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
+                card.style.borderColor = '#10b981';
+                card.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.4)';
+                setTimeout(() => {
+                    card.style.boxShadow = '';
+                    card.style.borderColor = '';
+                }, 2000);
+            }
+        }, 350);
+    }
+};
+
+window.clearLearningProgressConfirm = function() {
+    if (confirm('⚠️ Bạn có chắc chắn muốn đặt lại toàn bộ tiến độ học tập không? Thao tác này sẽ xoá danh sách các đề đã đánh dấu hoàn thành.')) {
+        state.completedSituations = [];
+        state.lastSitId = null;
+        state.lastSavedTime = new Date().toISOString();
+        const key = getProgressStorageKey();
+        localStorage.removeItem(key);
+        localStorage.removeItem(PROGRESS_STORAGE_KEY);
+        
+        document.querySelectorAll('.practice-situation-card').forEach(card => {
+            card.classList.remove('is-completed');
+            const badge = card.querySelector('.sit-learned-badge');
+            if (badge) badge.classList.add('hidden');
+            const btn = card.querySelector('.btn-learned-toggle');
+            if (btn) {
+                btn.classList.remove('completed');
+                btn.innerHTML = '<i class="fa-regular fa-circle-check"></i> <span>Đánh dấu đã học</span>';
+            }
+        });
+        
+        updateProgressUI();
+        showToast('🗑 Đã đặt lại toàn bộ tiến độ học tập!');
+    }
+};
+
+function initLearningProgress() {
+    const saved = loadLearningProgress();
+    if (saved && Array.isArray(saved.completedSituations)) {
+        state.completedSituations = saved.completedSituations;
+        state.lastGroup = saved.lastGroup || 'group-gift';
+        state.lastSitId = saved.lastSitId || null;
+        state.lastSavedTime = saved.lastSavedTime || null;
+
+        // Apply completed state to cards on page
+        state.completedSituations.forEach(sitId => {
+            const card = document.getElementById('sit-card-' + sitId);
+            if (card) {
+                card.classList.add('is-completed');
+                const badge = card.querySelector('.sit-learned-badge');
+                if (badge) badge.classList.remove('hidden');
+                const btn = card.querySelector('.btn-learned-toggle');
+                if (btn) {
+                    btn.classList.add('completed');
+                    btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Đã hoàn thành</span>';
+                }
+            }
+        });
+    }
+
+    updateProgressUI();
+
+    // Auto save on tab switch
+    const origSwitchTab = window.switchTab;
+    if (typeof origSwitchTab === 'function' && !window._switchTabProgressHooked) {
+        window._switchTabProgressHooked = true;
+        window.switchTab = function(targetId) {
+            origSwitchTab(targetId);
+            if (targetId && targetId.startsWith('group-')) {
+                state.lastGroup = targetId;
+                saveLearningProgress(true);
+            }
+        };
+    }
+}
