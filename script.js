@@ -283,10 +283,11 @@ function initApp() {
 /* ==========================================================================
    1. ACCESS CONTROL, AUTH & ATTENDANCE TRACKING (B212 & B2)
    ========================================================================== */
-const UNLOCKED_TABS_B212 = ['overview', 'group-gift', 'group-activity'];
+const UNLOCKED_TABS_B212 = ['flower-garden', 'overview', 'group-gift', 'group-activity'];
 const LOCKED_SUBTABS_B212 = ['act-v-practice'];
 
 const UNLOCKED_TABS_B2 = [
+    'flower-garden',
     'overview',
     'group-gift',
     'group-activity',
@@ -697,6 +698,9 @@ function initNavigation() {
         }
 
         state.activeTab = targetId;
+        if (targetId === 'flower-garden' && window.FlowerGarden) {
+            window.FlowerGarden.render();
+        }
 
         navItems.forEach(item => {
             if (item.dataset.target === targetId) {
