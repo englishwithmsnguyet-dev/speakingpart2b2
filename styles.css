@@ -960,7 +960,7 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
     line-height: 2.2;
     color: var(--text-main);
     margin: 0.75rem 0 0.95rem;
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
 }
@@ -988,7 +988,7 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
     font-size: 1.05rem;
     line-height: 2.1;
     margin-bottom: 1.5rem;
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
 }
@@ -1030,7 +1030,7 @@ body.dark-theme .tag-syntax.purple { background: #581c87; color: #e9d5ff; }
     font-size: 1.02rem;
     line-height: 2.2;
     color: var(--text-main);
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
 }
@@ -1743,7 +1743,7 @@ p, .clean-p {
     line-height: 2.2;
     padding: 1.15rem 1.45rem;
     margin: 0.75rem 0 0.95rem;
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
 }
@@ -1923,7 +1923,7 @@ body.dark-theme .sit-badge-num.purple { background: #581c87; color: #e9d5ff; }
     font-size: 1.05rem;
     line-height: 2.15;
     color: var(--text-main);
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
 }
@@ -2750,7 +2750,7 @@ body.dark-theme .trans-text em strong {
     font-style: normal;
     color: var(--text-main);
     line-height: 2.2;
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
 }
@@ -3098,7 +3098,7 @@ body.dark-theme .sit-sample-title {
     font-size: 0.98rem;
     line-height: 2.15;
     color: var(--text-main);
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
@@ -3286,7 +3286,7 @@ body.dark-theme .btn-trans-toggle.active {
     font-size: 0.92rem;
     line-height: 1.7;
     color: var(--text-main, #1e293b);
-    text-align: justify;
+    text-align: left;
     text-justify: inter-word;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
@@ -4025,17 +4025,13 @@ body.dark-theme .sit-action-btn.btn-sample-toggle.active-tab-sample {
 .reason-vi-text {
     font-size: 0.88rem;
     line-height: 1.75 !important;
-    text-align: justify !important;
-    text-justify: auto !important;
-    text-align-last: left !important;
+    text-align: left !important;
 }
 
 .hint-cat-focus,
 .hint-cat-wrap {
     line-height: 1.85 !important;
-    text-align: justify !important;
-    text-justify: auto !important;
-    text-align-last: left !important;
+    text-align: left !important;
 }
 
 /* ==========================================================================
@@ -4099,7 +4095,7 @@ body.dark-theme .sit-action-btn.btn-sample-toggle.active-tab-sample {
     color: #475569;
     font-style: italic;
     line-height: 1.75;
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
     animation: fadeIn 0.2s ease;
@@ -4152,7 +4148,7 @@ body.dark-theme .reason-vi-details .reason-vi-content {
     font-size: 0.92rem;
     line-height: 1.75;
     color: #78350f;
-    text-align: justify;
+    text-align: left;
     text-justify: auto;
     text-align-last: left;
     box-shadow: 0 2px 6px rgba(217, 119, 6, 0.08);
