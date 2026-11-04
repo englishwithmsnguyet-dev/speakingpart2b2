@@ -713,8 +713,11 @@ function initNavigation() {
         tabPanes.forEach(pane => {
             if (pane.id === targetId) {
                 pane.classList.add('active');
+                pane.classList.remove('hidden');
+                pane.style.display = '';
             } else {
                 pane.classList.remove('active');
+                pane.style.display = '';
             }
         });
 
