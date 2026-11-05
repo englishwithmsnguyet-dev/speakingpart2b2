@@ -5619,3 +5619,90 @@ body.dark-theme .teacher-brand-heading {
         justify-content: center;
     }
 }
+
+/* Multi-Reason 3-Choose-2 Enhancements */
+.reason-strategy-banner {
+    background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+    border: 1.5px solid #60a5fa;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
+}
+.reason-strategy-banner i {
+    color: #2563eb;
+    font-size: 1.35rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+.reason-strategy-text {
+    font-size: 0.95rem;
+    color: #1e3a8a;
+    line-height: 1.6;
+}
+.reason-item-block {
+    margin-bottom: 0.95rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px dashed rgba(16, 185, 129, 0.35);
+    line-height: 2.1;
+}
+.reason-item-block:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.reason-badge-opt {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    margin-right: 0.45rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+}
+.reason-badge-opt.opt-a {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+.reason-badge-opt.opt-b {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #7dd3fc;
+}
+.reason-badge-opt.opt-c {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fcd34d;
+}
+
+body.dark-theme .reason-strategy-banner {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: rgba(96, 165, 250, 0.4);
+}
+body.dark-theme .reason-strategy-text {
+    color: #bfdbfe;
+}
+body.dark-theme .reason-item-block {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-theme .reason-badge-opt.opt-a {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border-color: rgba(16, 185, 129, 0.4);
+}
+body.dark-theme .reason-badge-opt.opt-b {
+    background: rgba(14, 165, 233, 0.2);
+    color: #7dd3fc;
+    border-color: rgba(14, 165, 233, 0.4);
+}
+body.dark-theme .reason-badge-opt.opt-c {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+    border-color: rgba(245, 158, 11, 0.4);
+}
