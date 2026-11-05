@@ -2750,12 +2750,15 @@ body.dark-theme .trans-text em strong {
     font-style: normal;
     color: var(--text-main);
     line-height: 2.2;
-    text-align: left;
-    text-justify: auto;
+    text-align: justify;
+    text-justify: inter-word;
     text-align-last: left;
 }
 
 .example-speech-para {
+    text-align: justify;
+    text-justify: inter-word;
+    text-align-last: left;
     margin-bottom: 0.75rem;
     line-height: 2.2;
 }
@@ -4104,8 +4107,8 @@ body.dark-theme .sit-action-btn.btn-sample-toggle.active-tab-sample {
     color: #475569;
     font-style: italic;
     line-height: 1.75;
-    text-align: left;
-    text-justify: auto;
+    text-align: justify;
+    text-justify: inter-word;
     text-align-last: left;
     animation: fadeIn 0.2s ease;
 }
@@ -5645,18 +5648,21 @@ body.dark-theme .teacher-brand-heading {
 }
 /* 3 Reason Elevated Cards Grid */
 .reason-cards-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-    margin: 0.85rem 0 1.1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 0.85rem 0 1.15rem;
+    align-items: stretch;
 }
 
 .reason-card-box {
     border-radius: 12px;
-    padding: 1.05rem 1.3rem;
+    padding: 1.1rem 1.25rem;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
     border: 1.5px solid transparent;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .reason-card-box:hover {
@@ -5741,8 +5747,10 @@ body.dark-theme .teacher-brand-heading {
     font-size: 1rem;
     line-height: 2.15;
     color: #1f2937;
-    text-align: left;
-    text-justify: auto;
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    text-align-last: left !important;
+    flex: 1;
 }
 
 .reason-card-body strong {
