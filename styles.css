@@ -5643,66 +5643,162 @@ body.dark-theme .teacher-brand-heading {
     color: #1e3a8a;
     line-height: 1.6;
 }
-.reason-item-block {
-    margin-bottom: 0.95rem;
-    padding-bottom: 0.9rem;
-    border-bottom: 1px dashed rgba(16, 185, 129, 0.35);
-    line-height: 2.1;
-}
-.reason-item-block:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-.reason-badge-opt {
-    display: inline-block;
-    font-size: 0.82rem;
-    font-weight: 800;
-    padding: 0.2rem 0.55rem;
-    border-radius: 6px;
-    margin-right: 0.45rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    vertical-align: middle;
-}
-.reason-badge-opt.opt-a {
-    background: #d1fae5;
-    color: #065f46;
-    border: 1px solid #6ee7b7;
-}
-.reason-badge-opt.opt-b {
-    background: #e0f2fe;
-    color: #0369a1;
-    border: 1px solid #7dd3fc;
-}
-.reason-badge-opt.opt-c {
-    background: #fef3c7;
-    color: #92400e;
-    border: 1px solid #fcd34d;
+/* 3 Reason Elevated Cards Grid */
+.reason-cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin: 0.85rem 0 1.1rem;
 }
 
-body.dark-theme .reason-strategy-banner {
-    background: rgba(30, 41, 59, 0.85);
-    border-color: rgba(96, 165, 250, 0.4);
+.reason-card-box {
+    border-radius: 12px;
+    padding: 1.05rem 1.3rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+    border: 1.5px solid transparent;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-body.dark-theme .reason-strategy-text {
+
+.reason-card-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Card A: Emerald / Green */
+.reason-card-box.card-opt-a {
+    background: linear-gradient(135deg, rgba(236, 253, 245, 0.95), rgba(240, 253, 250, 0.95));
+    border-color: #86efac;
+    border-left: 4.5px solid #10b981;
+}
+
+/* Card B: Sky / Blue */
+.reason-card-box.card-opt-b {
+    background: linear-gradient(135deg, rgba(240, 249, 255, 0.95), rgba(238, 242, 255, 0.95));
+    border-color: #93c5fd;
+    border-left: 4.5px solid #3b82f6;
+}
+
+/* Card C: Amber / Warm Gold */
+.reason-card-box.card-opt-c {
+    background: linear-gradient(135deg, rgba(254, 252, 232, 0.95), rgba(255, 247, 237, 0.95));
+    border-color: #fde047;
+    border-left: 4.5px solid #f59e0b;
+}
+
+.reason-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.reason-card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+    padding: 0.22rem 0.65rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.reason-card-badge.badge-a {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.reason-card-badge.badge-b {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.reason-card-badge.badge-c {
+    background: #d97706;
+    color: #ffffff;
+}
+
+.reason-card-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.reason-card-box.card-opt-a .reason-card-title {
+    color: #065f46;
+}
+
+.reason-card-box.card-opt-b .reason-card-title {
+    color: #1e40af;
+}
+
+.reason-card-box.card-opt-c .reason-card-title {
+    color: #92400e;
+}
+
+.reason-card-body {
+    font-size: 1rem;
+    line-height: 2.15;
+    color: #1f2937;
+    text-align: left;
+    text-justify: auto;
+}
+
+.reason-card-body strong {
+    color: #0f172a;
+    font-weight: 800;
+}
+
+.reason-card-body em {
+    color: #4338ca;
+    font-style: italic;
+    font-weight: 600;
+}
+
+/* Dark Mode */
+body.dark-theme .reason-card-box {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .reason-card-box.card-opt-a {
+    background: rgba(6, 78, 59, 0.25);
+    border-color: rgba(16, 185, 129, 0.4);
+    border-left-color: #10b981;
+}
+
+body.dark-theme .reason-card-box.card-opt-b {
+    background: rgba(30, 58, 138, 0.25);
+    border-color: rgba(59, 130, 246, 0.4);
+    border-left-color: #3b82f6;
+}
+
+body.dark-theme .reason-card-box.card-opt-c {
+    background: rgba(120, 53, 15, 0.25);
+    border-color: rgba(245, 158, 11, 0.4);
+    border-left-color: #f59e0b;
+}
+
+body.dark-theme .reason-card-box.card-opt-a .reason-card-title {
+    color: #a7f3d0;
+}
+
+body.dark-theme .reason-card-box.card-opt-b .reason-card-title {
     color: #bfdbfe;
 }
-body.dark-theme .reason-item-block {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+
+body.dark-theme .reason-card-box.card-opt-c .reason-card-title {
+    color: #fde68a;
 }
-body.dark-theme .reason-badge-opt.opt-a {
-    background: rgba(16, 185, 129, 0.2);
-    color: #6ee7b7;
-    border-color: rgba(16, 185, 129, 0.4);
+
+body.dark-theme .reason-card-body {
+    color: #e2e8f0;
 }
-body.dark-theme .reason-badge-opt.opt-b {
-    background: rgba(14, 165, 233, 0.2);
-    color: #7dd3fc;
-    border-color: rgba(14, 165, 233, 0.4);
+
+body.dark-theme .reason-card-body strong {
+    color: #f8fafc;
 }
-body.dark-theme .reason-badge-opt.opt-c {
-    background: rgba(245, 158, 11, 0.2);
-    color: #fcd34d;
-    border-color: rgba(245, 158, 11, 0.4);
+
+body.dark-theme .reason-card-body em {
+    color: #c7d2fe;
 }
