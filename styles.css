@@ -2755,6 +2755,15 @@ body.dark-theme .trans-text em strong {
     text-align-last: left;
 }
 
+.example-speech-para {
+    margin-bottom: 0.75rem;
+    line-height: 2.2;
+}
+
+.example-speech-para:last-child {
+    margin-bottom: 0;
+}
+
 body.dark-theme .example-box-header .btn-pill-tts {
     background: rgba(30, 41, 59, 0.8);
     border-color: rgba(147, 197, 253, 0.3);
