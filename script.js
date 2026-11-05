@@ -283,8 +283,15 @@ function initApp() {
 /* ==========================================================================
    1. ACCESS CONTROL, AUTH & ATTENDANCE TRACKING (B212 & B2)
    ========================================================================== */
-const UNLOCKED_TABS_B212 = ['flower-garden', 'overview', 'group-gift', 'group-activity'];
-const LOCKED_SUBTABS_B212 = ['act-v-practice'];
+const UNLOCKED_TABS_B212 = [
+    'flower-garden',
+    'overview',
+    'group-gift',
+    'group-activity',
+    'group-location',
+    'group-transport'
+];
+const LOCKED_SUBTABS_B212 = ['trans-v-practice'];
 
 const UNLOCKED_TABS_B2 = [
     'flower-garden',
